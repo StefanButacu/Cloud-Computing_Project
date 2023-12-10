@@ -1,0 +1,47 @@
+@import "globals";
+
+
+.meal-name {
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  margin: 0 0 0 5px;
+  padding: 4px;
+}
+
+
+.meal {
+  border-bottom: 1px solid #ccc;
+
+  .meal-header {
+    background: $light-blue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+    .meal-calorie {
+      color: white;
+      margin-right: 10px;
+    }
+  }
+}
+
+
+.add-food-label {
+  cursor: pointer;
+  //text-decoration: underline;
+  padding: 12px 4px;
+}
+
+.sc-ion-label-md-s > p {
+  color: $light-blue;
+  font-size: 18px;
+  font-weight: bold;
+
+}
+
+.meals-container {
+  display: flex;
+  flex-direction: column;
+}

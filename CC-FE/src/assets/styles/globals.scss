@@ -1,0 +1,40 @@
+$background-color: #ecf0f1;
+$dark-blue: #2c3e50;
+$orange: #f39c12;
+$dark-gray: #34495e;
+$green: #1abc48;
+$red: #e74c3c;
+$medium-gray: #95a5a6;
+$light-orange: #FFE5CC;
+$light-blue: #215196;
+
+$protein: $green;
+$lipid: $red;
+$carbohydrate: $orange;
+
+.center-toolbar-title {
+  text-align: center
+}
+
+$font-family: 'Open Sans', sans-serif;
+
+body {
+  font-family: $font-family;
+}
+
+.transparent-button {
+  --ripple-color: transparent;
+}
+
+.alert-radio-label.sc-ion-alert-md {
+  white-space: normal !important;
+}
+
+ion-tab-button {
+  font-size: 12px;
+  --color-selected: black;
+
+  ion-icon {
+    font-size: 30px;
+  }
+}

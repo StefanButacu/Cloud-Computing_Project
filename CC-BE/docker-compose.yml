@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - springapimysql-net
+    depends_on:
+      - mysqldb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/app_cc?allowPublicKeyRetrieval=true&useSSL=false
+    volumes:
+      - .m2:/root/.m2
+  mysqldb:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - 3307:3306
+    networks:
+      - springapimysql-net
+    environment:
+      MYSQL_DATABASE: app_cc
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+networks:
+  springapimysql-net:

@@ -36,16 +36,14 @@ spec:
         tier: database
     spec:
       containers:
-        - image: mysql:8.0 # image from docker-hub
-          imagePullPolicy: Never
+        - image: mysql:latest # image from docker-hub
+#          imagePullPolicy: Never
           name: mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: root
             - name: MYSQL_DATABASE # Setting Database Name from a 'ConfigMap'
               value: app_cc
-            - name: MYSQL_ALLOW_EMPTY_PASSWORD
-              value: True
           ports:
             - containerPort: 3306
               name: mysql

@@ -40,7 +40,7 @@ spec:
     type: LoadBalancer
     ports:
         - protocol: TCP
-          port: 80 # port inside the cluster
+          port: 1337 # port inside the cluster
           targetPort: 8080 # Port exposed to the oustside
     selector:
         app: cc-be

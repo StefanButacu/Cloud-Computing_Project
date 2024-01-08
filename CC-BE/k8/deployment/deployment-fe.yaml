@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cc-fe
+spec:
+  selector:
+    matchLabels:
+      app: cc-fe
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cc-fe
+    spec:
+      containers:
+        - name: cc-fe
+          image: cc-fe:0.0.1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_SERVER_URL
+              value: "http://localhost:1337"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cc-fe-client-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: cc-fe
+  ports:
+    - port: 3000
+      targetPort: 3000
+
+
+---
+#apiVersion: networking.k8s.io/v1 # for versions before 1.14 use extensions/v1beta1
+#kind: Ingress
+#metadata:
+#  name: cc-app-ingress
+#  annotations:
+#    nginx.ingress.kubernetes.io/rewrite-target: /$1
+#spec:
+#  rules:
+#    - http:
+#        paths:
+#          - pathType: Prefix
+#            path: /?(.*)
+#            backend:
+#              service:
+#                name: cc-fe-client-service
+#                port:
+#                  number: 3000
+#          - pathType: Prefix
+#            path: /api/?(.*)
+#            backend:
+#              service:
+#                name: api-service
+#                port:
+#                  number: 1337

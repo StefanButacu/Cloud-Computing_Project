@@ -1,13 +1,23 @@
-package com.example.ccbe.domain.dto;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-public class AutheticationRequest {
-
+@Entity
+@Table(name = "users")
+public class Credentials {
+    @Id
+    @Column(name = "id")
+    private Long id;
     private String username;
     private String password;
 
-    public AutheticationRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {

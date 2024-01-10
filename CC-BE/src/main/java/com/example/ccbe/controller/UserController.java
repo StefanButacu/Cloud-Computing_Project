@@ -57,6 +57,14 @@ public class UserController {
         userService.updateCurrentWeight(userId, currentWeight);
         return new ResponseEntity(HttpStatus.OK);
     }
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
+        User user = userService.registerUser(userRegisterRequestDTO);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
 
     @GetMapping("/register/activity-levels")
     public ResponseEntity<List<EnumDTO>> getAllActivityLevels() {

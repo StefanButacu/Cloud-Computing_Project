@@ -20,8 +20,4 @@ public class AuthController {
         return authenticationService.loginUser(authenticationRequest.getUsername(), authenticationRequest.getPassword());
     }
 
-    @PostMapping(path = "/register")
-    public ResponseEntity<?> register(String username, String password) {
-        return authenticationService.registerUser(username, password);
-    }
 }

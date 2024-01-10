@@ -53,20 +53,4 @@ public class LoginController {
         }
 
     }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
-        User user = userService.registerUser(userRegisterRequestDTO);
-//        HttpEntity<UserRegisterRequestDTO> registrationRequest = new HttpEntity<>(userRegisterRequestDTO);
-
-//      TODO - we can keep only login on a separate service
-//        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/auth/register",
-//                HttpMethod.POST, registrationRequest, String.class);
-
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-    }
-
 }

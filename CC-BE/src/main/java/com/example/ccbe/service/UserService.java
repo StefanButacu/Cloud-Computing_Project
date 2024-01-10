@@ -8,10 +8,10 @@ import com.example.ccbe.domain.user.ActivityLevel;
 import com.example.ccbe.domain.user.Gender;
 import com.example.ccbe.domain.user.User;
 import com.example.ccbe.repository.UserRepository;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import static com.example.ccbe.domain.user.DietType.*;
+import org.springframework.web.client.RestTemplate;
 
 
 @Service
@@ -25,18 +25,6 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    public User login(String username, String password) {
-        User user = loadUserByUsername(username);
-        if (user == null) {
-            return null;
-        }
-        boolean isPasswordMatch = passwordEncoder.matches(password, user.getPassword());
-        if (isPasswordMatch) {
-            return user;
-        }
-        return null;
     }
 
     public User loadUserByUsername(String username) {

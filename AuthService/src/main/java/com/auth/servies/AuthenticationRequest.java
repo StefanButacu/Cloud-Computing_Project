@@ -1,11 +1,11 @@
-package com.example.ccbe.domain.dto;
+package com.auth.servies;
 
-public class AutheticationRequest {
+public class AuthenticationRequest {
 
     private String username;
     private String password;
 
-    public AutheticationRequest(String username, String password) {
+    public AuthenticationRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }

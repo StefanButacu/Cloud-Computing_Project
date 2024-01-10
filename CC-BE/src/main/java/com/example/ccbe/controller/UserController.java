@@ -57,7 +57,6 @@ public class UserController {
         userService.updateCurrentWeight(userId, currentWeight);
         return new ResponseEntity(HttpStatus.OK);
     }
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
         User user = userService.registerUser(userRegisterRequestDTO);

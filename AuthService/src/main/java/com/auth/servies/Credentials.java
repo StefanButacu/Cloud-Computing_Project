@@ -1,3 +1,5 @@
+package com.auth.servies;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

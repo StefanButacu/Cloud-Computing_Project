@@ -27,10 +27,10 @@ public class LoginController {
     private final JwtTokenService jwtTokenService;
     private final RestTemplate restTemplate;
 
-    public LoginController(UserService userService, JwtTokenService jwtTokenService, RestTemplate restTemplate) {
+    public LoginController(UserService userService, JwtTokenService jwtTokenService) {
         this.userService = userService;
         this.jwtTokenService = jwtTokenService;
-        this.restTemplate = restTemplate;
+        this.restTemplate = new RestTemplate();
     }
 
 
@@ -38,7 +38,8 @@ public class LoginController {
     public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequest autheticationRequest) {
         HttpEntity<AuthenticationRequest> loginRequest = new HttpEntity<>(autheticationRequest);
 
-        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/auth/login", HttpMethod.POST,
+//      # TODO - inject property here for url
+        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8081/auth/login", HttpMethod.POST,
                 loginRequest, String.class);
 
         if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
@@ -53,6 +54,7 @@ public class LoginController {
         User user = userService.registerUser(userRegisterRequestDTO);
         HttpEntity<UserRegisterRequestDTO> registrationRequest = new HttpEntity<>(userRegisterRequestDTO);
 
+//      TODO - we can keep only login on a separate service
         ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/auth/register",
                 HttpMethod.POST, registrationRequest, String.class);
 

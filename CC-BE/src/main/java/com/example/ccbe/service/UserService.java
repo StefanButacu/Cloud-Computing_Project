@@ -22,7 +22,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final DietPlanDTO DEFAULT_DIET_PLAN = new DietPlanDTO(2000.0, 137.0, 137.0, 100.0);
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RestTemplate restTemplate) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -39,26 +40,30 @@ public class LoginController {
         HttpEntity<AuthenticationRequest> loginRequest = new HttpEntity<>(autheticationRequest);
 
 //      # TODO - inject property here for url
-        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8081/auth/login", HttpMethod.POST,
-                loginRequest, String.class);
-
-        if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+        try {
+            ResponseEntity<String> response = restTemplate.exchange("http://localhost:8081/auth/login", HttpMethod.POST,
+                    loginRequest, String.class);
+            if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            String jwtToken = jwtTokenService.generateToken(response.getBody());
+            return ResponseEntity.ok(jwtToken);
+        }catch (HttpClientErrorException ex){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        String jwtToken = jwtTokenService.generateToken(userService.loadUserByUsername(autheticationRequest.getUsername()));
-        return ResponseEntity.ok(jwtToken);
+
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
         User user = userService.registerUser(userRegisterRequestDTO);
-        HttpEntity<UserRegisterRequestDTO> registrationRequest = new HttpEntity<>(userRegisterRequestDTO);
+//        HttpEntity<UserRegisterRequestDTO> registrationRequest = new HttpEntity<>(userRegisterRequestDTO);
 
 //      TODO - we can keep only login on a separate service
-        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/auth/register",
-                HttpMethod.POST, registrationRequest, String.class);
+//        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/auth/register",
+//                HttpMethod.POST, registrationRequest, String.class);
 
-        if (user == null || response.getStatusCode() != HttpStatus.OK) {
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();

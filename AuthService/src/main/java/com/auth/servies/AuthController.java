@@ -3,6 +3,7 @@ package com.auth.servies;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -15,8 +16,8 @@ public class AuthController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<?> authenticate(String username, String password) {
-        return authenticationService.loginUser(username, password);
+    public ResponseEntity<?> authenticate(@RequestBody  AuthenticationRequest authenticationRequest) {
+        return authenticationService.loginUser(authenticationRequest.getUsername(), authenticationRequest.getPassword());
     }
 
     @PostMapping(path = "/register")

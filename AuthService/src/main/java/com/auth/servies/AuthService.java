@@ -25,15 +25,15 @@ public class AuthService {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    public ResponseEntity<String> loginUser(String username, String password) {
+    public ResponseEntity<?> loginUser(String username, String password) {
         Credentials credentials = credentialsRepository.findUserByUsername(username).orElse(null);
 
         if (credentials == null) {
-            return null;
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
         boolean isPasswordMatch = passwordEncoder.matches(password, credentials.getPassword());
         if (isPasswordMatch) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(credentials.getId());
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }

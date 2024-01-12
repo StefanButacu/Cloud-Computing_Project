@@ -14,7 +14,7 @@ spec:
         spec:
             containers:
                 -   name: cc-be
-                    image: cc-be-api_service:0.0.1
+                    image: cc-be-api_service:0.0.2
                     imagePullPolicy: Never # use local image
                     resources:
                         limits:
@@ -32,7 +32,7 @@ spec:
                         - name: DB_PASSWORD
                           value: root
                         - name: AUTH_URL
-                          value: http://localhost:8081 # todo service
+                          value: http://10.1.0.30:8081 # todo service
 ---
 apiVersion: v1
 kind: Service

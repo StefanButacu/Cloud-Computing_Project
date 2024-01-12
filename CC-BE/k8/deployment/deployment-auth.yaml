@@ -14,14 +14,14 @@ spec:
         spec:
             containers:
                 -   name: cc-auth
-                    image: cc-auth:0.0.1
+                    image: cc-auth:0.0.2
                     imagePullPolicy: Never # use local image
                     resources:
                         limits:
                             memory: "1024Mi"
                             cpu: "500m"
                     ports:
-                        -   containerPort: 8080
+                        -   containerPort: 8081
                     env:
                         - name: DB_HOST
                           value: mysql

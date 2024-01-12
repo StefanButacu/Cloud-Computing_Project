@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import java.util.logging.*;
 
 
 @Controller
@@ -39,8 +40,13 @@ public class LoginController {
     public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequest autheticationRequest) {
         HttpEntity<AuthenticationRequest> loginRequest = new HttpEntity<>(autheticationRequest);
 
+        Logger logger
+                = Logger.getLogger(
+                LoginController.class.getName());
+
 //      # TODO - inject property here for url
         try {
+            logger.warning(AUTH_URL);
             ResponseEntity<String> response = restTemplate.exchange(AUTH_URL + "/auth/login", HttpMethod.POST,
                     loginRequest, String.class);
             if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {

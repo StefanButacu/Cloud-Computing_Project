@@ -2,17 +2,21 @@ package com.auth.servies;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthService authenticationService;
 
     public AuthController(AuthService authenticationService) {
         this.authenticationService = authenticationService;
+    }
+
+
+    @GetMapping
+    public String hello(){
+        return "Hello auth";
     }
 
     @PostMapping(path = "/login")

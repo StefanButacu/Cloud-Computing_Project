@@ -14,14 +14,14 @@ spec:
         spec:
             containers:
                 -   name: cc-be
-                    image: cc-be-api_service:0.0.2
+                    image: cc-be-api_service:0.0.3
                     imagePullPolicy: Never # use local image
                     resources:
                         limits:
                             memory: "1024Mi"
                             cpu: "500m"
                     ports:
-                        -   containerPort: 8080
+                        -   containerPort: 8090
                     env:
                         - name: DB_HOST
                           value: mysql
@@ -32,7 +32,7 @@ spec:
                         - name: DB_PASSWORD
                           value: root
                         - name: AUTH_URL
-                          value: http://10.1.0.30:8081 # todo service
+                          value: http://10.1.0.105:8081 # todo service
 ---
 apiVersion: v1
 kind: Service

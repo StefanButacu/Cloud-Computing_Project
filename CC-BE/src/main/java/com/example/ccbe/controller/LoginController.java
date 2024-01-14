@@ -2,8 +2,6 @@ package com.example.ccbe.controller;
 
 
 import com.example.ccbe.domain.dto.AuthenticationRequest;
-import com.example.ccbe.domain.dto.userDTOS.UserRegisterRequestDTO;
-import com.example.ccbe.domain.user.User;
 import com.example.ccbe.service.JwtTokenService;
 import com.example.ccbe.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,10 +26,14 @@ public class LoginController {
 
     private final JwtTokenService jwtTokenService;
     private final RestTemplate restTemplate;
+    private final UserService userService;
     @Value(value = "${auth.url}")
     private String AUTH_URL;
-    public LoginController(JwtTokenService jwtTokenService) {
+
+
+    public LoginController(JwtTokenService jwtTokenService, UserService userService) {
         this.jwtTokenService = jwtTokenService;
+        this.userService = userService;
         this.restTemplate = new RestTemplate();
     }
 
@@ -43,8 +45,6 @@ public class LoginController {
         Logger logger
                 = Logger.getLogger(
                 LoginController.class.getName());
-
-//      # TODO - inject property here for url
         try {
             logger.warning(AUTH_URL);
             ResponseEntity<String> response = restTemplate.exchange(AUTH_URL + "/auth/login", HttpMethod.POST,
@@ -52,7 +52,8 @@ public class LoginController {
             if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-            String jwtToken = jwtTokenService.generateToken(response.getBody());
+//          # Token should be created from the user that has data in users table (the one that are registered)
+            String jwtToken = jwtTokenService.generateToken(String.valueOf(userService.loadUserByUsername(autheticationRequest.getUsername()).getId()));
             return ResponseEntity.ok(jwtToken);
         }catch (HttpClientErrorException ex){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

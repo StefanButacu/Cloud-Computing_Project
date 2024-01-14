@@ -14,7 +14,7 @@ spec:
         spec:
             containers:
                 -   name: cc-auth
-                    image: cc-auth:0.0.2
+                    image: cc-auth:0.0.3
                     imagePullPolicy: Never # use local image
                     resources:
                         limits:

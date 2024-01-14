@@ -24,4 +24,8 @@ public class AuthController {
         return authenticationService.loginUser(authenticationRequest.getUsername(), authenticationRequest.getPassword());
     }
 
+    @PostMapping(path = "/register")
+    public ResponseEntity<?> register(@RequestBody AuthenticationRequest authenticationRequest) {
+        return authenticationService.registerUser(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+    }
 }

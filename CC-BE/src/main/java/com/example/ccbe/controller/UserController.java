@@ -1,5 +1,6 @@
 package com.example.ccbe.controller;
 
+import com.example.ccbe.domain.dto.AuthenticationRequest;
 import com.example.ccbe.domain.dto.userDTOS.EnumDTO;
 import com.example.ccbe.domain.dto.userDTOS.UserDetailsDTO;
 import com.example.ccbe.domain.dto.userDTOS.UserRegisterRequestDTO;
@@ -8,10 +9,14 @@ import com.example.ccbe.service.JwtTokenService;
 import com.example.ccbe.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,14 +26,19 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
-
     private final ModelMapper modelMapper;
     private final JwtTokenService jwtTokenService;
+
+    @Value(value = "${auth.url}")
+    private String AUTH_URL;
+    private final RestTemplate restTemplate;
+
 
     public UserController(UserService userService, ModelMapper modelMapper, JwtTokenService jwtTokenService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.jwtTokenService = jwtTokenService;
+        this.restTemplate = new RestTemplate();
     }
 
     @GetMapping()
@@ -62,6 +72,14 @@ public class UserController {
         User user = userService.registerUser(userRegisterRequestDTO);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        AuthenticationRequest aReq = new AuthenticationRequest(user.getUsername(), userRegisterRequestDTO.getPassword());
+        HttpEntity<AuthenticationRequest> registerRequest = new HttpEntity<>(aReq);
+        try {
+            restTemplate.exchange(AUTH_URL + "/auth/register", HttpMethod.POST,
+                    registerRequest, String.class);
+        } catch (HttpClientErrorException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }

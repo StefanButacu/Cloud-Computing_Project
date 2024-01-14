@@ -18,7 +18,7 @@ public class AuthService {
     public ResponseEntity<String> registerUser(String username, String password) {
         Credentials newCredentials = new Credentials();
         newCredentials.setUsername(username);
-        newCredentials.setPassword(password);
+        newCredentials.setPassword(passwordEncoder.encode(password));
 
         credentialsRepository.save(newCredentials);
 

@@ -7,6 +7,7 @@ export const authConfig = (token?: string) => ({
 // require('dotenv').config();
 
 export const baseURL = process.env.REACT_APP_SERVER_URL;
+export const authURL = process.env.REACT_APP_AUTH_URL;
 // export const baseURL = "http://192.168.93.57:8080";
 
 console.log(baseURL);

@@ -14,7 +14,7 @@ spec:
         spec:
             containers:
                 -   name: cc-be
-                    image: cc-be-api_service:0.0.3
+                    image: cc-be-api_service:0.0.4
                     imagePullPolicy: Never # use local image
                     resources:
                         limits:
